@@ -16,4 +16,7 @@ module lk.ijse.project.mentalhealthterapycenter {
 
     opens lk.ijse.project.mentalhealthterapycenter to javafx.fxml;
     exports lk.ijse.project.mentalhealthterapycenter;
+    exports lk.ijse.project.mentalhealthterapycenter.controller;
+    opens lk.ijse.project.mentalhealthterapycenter.controller to javafx.fxml;
+
 }

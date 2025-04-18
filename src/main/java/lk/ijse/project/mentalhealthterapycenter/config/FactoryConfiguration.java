@@ -13,7 +13,6 @@ public class FactoryConfiguration {
     private FactoryConfiguration() {
         Configuration configuration = new Configuration().configure();
         configuration.addAnnotatedClass(User.class);
-        configuration.addAnnotatedClass(TPrograms.class);
         sessionFactory = configuration.buildSessionFactory();
     }
     public static FactoryConfiguration getInstance() {
