@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="396.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.project.mentalhealthterapycenter.controller.Login">
+<AnchorPane prefHeight="396.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.project.mentalhealthterapycenter.controller.UserLogin">
    <children>
       <ImageView fitHeight="396.0" fitWidth="271.0" pickOnBounds="true" preserveRatio="true">
          <image>

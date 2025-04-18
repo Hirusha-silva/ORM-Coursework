@@ -1,0 +1,22 @@
+package lk.ijse.project.mentalhealthterapycenter.dao;
+import lk.ijse.project.mentalhealthterapycenter.dao.impl.*;
+public class DAOFactory {
+    public static DAOFactory daoFactory;
+    private DAOFactory() {}
+
+    public static DAOFactory getInstance() {
+        if (daoFactory == null) {
+            daoFactory = new DAOFactory();
+        }
+        return daoFactory;
+    }
+
+    public <T extends SuperDAO>T getDAO(DAOType daoType) {
+        return switch (daoType) {
+            case USER ->(T) new UserDAOImpl();
+            default -> null;
+        };
+    }
+}
+
+
