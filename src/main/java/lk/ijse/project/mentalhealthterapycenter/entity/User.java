@@ -3,14 +3,16 @@ package lk.ijse.project.mentalhealthterapycenter.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "user_details")
-public class User {
+@Table(name = "user")
+public class User implements SuperEntity {
     @Id
     private String userID;
     private String userFullName;

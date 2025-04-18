@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+
 
 
 public class App extends Application {
@@ -15,7 +15,7 @@ public class App extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/userLogin-form.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("The Serenity Mental Health Therapy Center");
