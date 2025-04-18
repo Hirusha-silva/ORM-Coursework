@@ -11,16 +11,9 @@ module lk.ijse.project.mentalhealthterapycenter {
     requires org.hibernate.orm.core;
     requires java.desktop;
 
-    //opens lk.ijse.project.mentalhealthterapycenter.config to jakarta.persistence;
     opens lk.ijse.project.mentalhealthterapycenter.entity to org.hibernate.orm.core;
-
     exports lk.ijse.project.mentalhealthterapycenter.entity;
 
     opens lk.ijse.project.mentalhealthterapycenter to javafx.fxml;
     exports lk.ijse.project.mentalhealthterapycenter;
-    exports lk.ijse.project.mentalhealthterapycenter.controller;
-    opens lk.ijse.project.mentalhealthterapycenter.controller to javafx.fxml;
-
-
-
 }
