@@ -2,51 +2,124 @@ package lk.ijse.project.mentalhealthterapycenter.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import lk.ijse.project.mentalhealthterapycenter.bo.BOFactory;
+import lk.ijse.project.mentalhealthterapycenter.bo.BOType;
+import lk.ijse.project.mentalhealthterapycenter.bo.custom.UserBO;
+import lombok.Setter;
 
-public class UserLogin {
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class UserLogin implements Initializable {
 
     @FXML
-    private CheckBox adminCheckBox;
-
-    @FXML
-    private Button btnLogin;
+    private AnchorPane anchorPane;
 
     @FXML
     private Hyperlink forgetPass;
 
     @FXML
-    private Hyperlink hyperRegister;
+    private Button login;
 
     @FXML
-    private PasswordField txtPassword;
+    private TextField passwordTextField;
 
     @FXML
-    private TextField txtUsername;
+    private PasswordField passwordPWField;
 
     @FXML
-    void adminCheckBoxAction(ActionEvent event) {
+    private CheckBox showPasswordcheckBox;
 
+    @FXML
+    private TextField userName;
+
+    @Setter
+    private String role;
+
+    UserBO userBO = BOFactory.getInstance().getBO(BOType.USER);
+    @FXML
+    void forgetPassAction(MouseEvent event) throws IOException {
+        loadNewPage("/view/forgetPassword.fxml","user");
+        SessionHolder.currentRole = role;
     }
 
     @FXML
-    void btnLogInAction(ActionEvent event) {
+    void loginAction(ActionEvent event) throws IOException {
+        String username = userName.getText();
+        String password = passwordPWField.getText();
 
+        if (username.isEmpty() || password.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Please enter your username and password", ButtonType.OK).show();
+            return;
+        }
+
+        String role1 = SessionHolder.currentRole;
+        boolean userFromDB = userBO.findUser(username);
+        String passFromDB = userBO.findPassWord(username,role1);
+
+        if (userFromDB && PasswordUtil.matches(password, passFromDB)) {
+            SessionHolder.userName = username;
+            navigateToMainPage("/view/MainLayout.fxml", "user", username);
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Login Failed..", ButtonType.OK).show();
+        }
+    }
+
+    private  void  loadNewPage(String fxmlPath,String role) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        Scene scene = new Scene(loader.load());
+        FogetPassword fg = loader.getController();
+        fg.setRole(role);
+        SessionHolder.currentRole = role;
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("Change Password -  Mental Health Therapy Center");
+        stage.show();
     }
 
     @FXML
-    void forgetPassAction(MouseEvent event) {
-
+    void showPasswordcheckBox(ActionEvent event) {
+        if (showPasswordcheckBox.isSelected()) {
+            passwordPWField.setVisible(false);
+            passwordTextField.setVisible(true);
+            passwordTextField.setText(passwordPWField.getText());
+        }else {
+            passwordPWField.setVisible(true);
+            passwordTextField.setVisible(false);
+            passwordPWField.setText(passwordTextField.getText());
+        }
     }
 
-    @FXML
-    void hyperRegisterOnAction(ActionEvent event) {
-
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        refreshPage();
+        SessionHolder.currentRole = role;
     }
-
+    private void navigateToMainPage(String fxmlPath,String role,String userName) throws IOException {
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+//        Scene scene = new Scene(loader.load());
+//        MainController controller = loader.getController();
+//        controller.setUserRole(role);
+//        controller.setUserName(userName);
+//        Stage currentStage = (Stage) image.getScene().getWindow();
+//        Stage stage = new Stage();
+//        stage.setScene(scene);
+//        stage.setResizable(false);
+//        stage.setTitle("The Mental Health Therapy Center");
+//        currentStage.close();
+//        stage.show();
+    }
+    private void refreshPage(){
+        passwordPWField.setVisible(true);
+        passwordTextField.setVisible(false);
+    }
 }

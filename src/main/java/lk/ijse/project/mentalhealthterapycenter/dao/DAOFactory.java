@@ -1,5 +1,5 @@
 package lk.ijse.project.mentalhealthterapycenter.dao;
-import lk.ijse.project.mentalhealthterapycenter.dao.impl.*;
+import lk.ijse.project.mentalhealthterapycenter.dao.custom.impl.*;
 public class DAOFactory {
     public static DAOFactory daoFactory;
     private DAOFactory() {}

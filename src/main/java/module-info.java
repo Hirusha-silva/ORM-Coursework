@@ -10,6 +10,9 @@ module lk.ijse.project.mentalhealthterapycenter {
     requires java.naming;
     requires org.hibernate.orm.core;
     requires java.desktop;
+    requires spring.security.crypto;
+    opens lk.ijse.project.mentalhealthterapycenter.config to jakarta.persistence;
+    exports lk.ijse.project.mentalhealthterapycenter.dto to org.hibernate.orm.core;
 
     opens lk.ijse.project.mentalhealthterapycenter.entity to org.hibernate.orm.core;
     exports lk.ijse.project.mentalhealthterapycenter.entity;

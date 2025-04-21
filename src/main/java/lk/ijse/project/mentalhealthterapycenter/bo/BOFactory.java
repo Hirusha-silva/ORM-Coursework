@@ -1,5 +1,7 @@
 package lk.ijse.project.mentalhealthterapycenter.bo;
 
+import lk.ijse.project.mentalhealthterapycenter.bo.custom.impl.UserBOImpl;
+
 public class BOFactory {
     public static BOFactory boFactory;
     private BOFactory() {}
@@ -10,7 +12,7 @@ public class BOFactory {
         }
         return boFactory;
     }
-
+    @SuppressWarnings("unchecked")
     public <T extends SuperBO>T getBO(BOType type) {
         return switch (type) {
             case USER -> (T) new UserBOImpl();

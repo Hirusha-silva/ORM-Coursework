@@ -16,7 +16,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/user_login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("The Serenity Mental Health Therapy Center");
         stage.setScene(scene);

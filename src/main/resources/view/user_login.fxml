@@ -13,8 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="396.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.project.mentalhealthterapycenter.controller.UserLogin">
+<AnchorPane fx:id="anchorPane" prefHeight="396.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.project.mentalhealthterapycenter.controller.UserLogin">
    <children>
       <ImageView fitHeight="396.0" fitWidth="271.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -42,9 +41,10 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtUsername" layoutX="296.0" layoutY="197.0" prefHeight="28.0" prefWidth="303.0" promptText="Username" />
-      <PasswordField fx:id="txtPassword" layoutX="296.0" layoutY="241.0" prefHeight="28.0" prefWidth="303.0" promptText="Password" />
-      <Button fx:id="btnLogin" layoutX="391.0" layoutY="317.0" mnemonicParsing="false" onAction="#btnLogInAction" prefHeight="29.0" prefWidth="114.0" style="-fx-background-color: #2ecc71;" text="Log in" textFill="WHITE">
+      <TextField fx:id="userName" layoutX="296.0" layoutY="197.0" prefHeight="28.0" prefWidth="303.0" promptText="Username" />
+      <PasswordField fx:id="passwordPWField" layoutX="296.0" layoutY="241.0" prefHeight="28.0" prefWidth="303.0" promptText="Password" />
+      <TextField fx:id="passwordTextField" layoutX="296.0" layoutY="242.0" prefHeight="26.0" prefWidth="303.0" promptText="Password" />
+      <Button fx:id="login" layoutX="391.0" layoutY="339.0" mnemonicParsing="false" onAction="#loginAction" prefHeight="29.0" prefWidth="114.0" style="-fx-background-color: #2ecc71;" text="Log in" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
@@ -52,13 +52,11 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label layoutX="324.0" layoutY="359.0" prefHeight="17.0" prefWidth="181.0" text="Are you don't have an Account ?" />
-      <Hyperlink fx:id="hyperRegister" layoutX="502.0" layoutY="356.0" onAction="#hyperRegisterOnAction" text="Register Now" />
-      <CheckBox fx:id="adminCheckBox" layoutX="298.0" layoutY="287.0" mnemonicParsing="false" onAction="#adminCheckBoxAction" text="SHOW PASSWORD">
+      <CheckBox fx:id="showPasswordcheckBox" layoutX="298.0" layoutY="300.0" mnemonicParsing="false" onAction="#showPasswordcheckBox" text="SHOW PASSWORD">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </CheckBox>
-      <Hyperlink fx:id="forgetPass" layoutX="487.0" layoutY="284.0" onMouseClicked="#forgetPassAction" text="Forget Password ? " underline="true" />
+      <Hyperlink fx:id="forgetPass" layoutX="487.0" layoutY="295.0" onMouseClicked="#forgetPassAction" text="Forget Password ? " underline="true" />
    </children>
 </AnchorPane>
