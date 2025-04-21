@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -44,6 +45,9 @@ public class UserLogin implements Initializable {
     @Setter
     private String role;
 
+    @FXML
+    private ImageView image;
+
     UserBO userBO = BOFactory.getInstance().getBO(BOType.USER);
     @FXML
     void forgetPassAction(MouseEvent event) throws IOException {
@@ -67,7 +71,7 @@ public class UserLogin implements Initializable {
 
         if (userFromDB && PasswordUtil.matches(password, passFromDB)) {
             SessionHolder.userName = username;
-            navigateToMainPage("/view/MainLayout.fxml", "user", username);
+            navigateToMainPage("/view/main-layout.fxml", "user", username);
         } else {
             new Alert(Alert.AlertType.ERROR, "Login Failed..", ButtonType.OK).show();
         }
@@ -105,18 +109,18 @@ public class UserLogin implements Initializable {
         SessionHolder.currentRole = role;
     }
     private void navigateToMainPage(String fxmlPath,String role,String userName) throws IOException {
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-//        Scene scene = new Scene(loader.load());
-//        MainController controller = loader.getController();
-//        controller.setUserRole(role);
-//        controller.setUserName(userName);
-//        Stage currentStage = (Stage) image.getScene().getWindow();
-//        Stage stage = new Stage();
-//        stage.setScene(scene);
-//        stage.setResizable(false);
-//        stage.setTitle("The Mental Health Therapy Center");
-//        currentStage.close();
-//        stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        Scene scene = new Scene(loader.load());
+        MainLayout controller = loader.getController();
+        controller.setUserRole(role);
+        controller.setUserName(userName);
+        Stage currentStage = new Stage();
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("The Serenity Mental Health Therapy Center");
+        currentStage.close();
+        stage.show();
     }
     private void refreshPage(){
         passwordPWField.setVisible(true);
