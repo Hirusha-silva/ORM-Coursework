@@ -16,7 +16,7 @@ public class DAOFactory {
             case USER ->(T) new UserDAOImpl();
             case PATIENT -> (T) new PatientDAOImpl();
             case THERAPIST -> (T) new TherapistDAOImpl();
-//            case THERAPY_PROGRAMS -> (T) new
+            case THERAPY_PROGRAMS -> (T) new TherapyProgramDAOImpl();
             default -> null;
         };
     }
