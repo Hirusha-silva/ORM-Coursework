@@ -1,5 +1,5 @@
 package lk.ijse.project.mentalhealthterapycenter.dao;
 
 public enum DAOType {
-    USER,PATIENT,THERAPIST
+    USER,PATIENT,THERAPIST,THERAPY_PROGRAMS
 }
