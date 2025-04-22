@@ -3,6 +3,8 @@ package lk.ijse.project.mentalhealthterapycenter.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -58,7 +60,7 @@ public class MainLayout implements Initializable {
 
     @FXML
     void addMemberAction(MouseEvent event) throws IOException {
-        loadPage("register.fxml");
+        loadPage("/view/register.fxml",event);
     }
 
     @FXML
@@ -83,7 +85,7 @@ public class MainLayout implements Initializable {
 
     @FXML
     void signOutButtonAction(MouseEvent event) throws IOException {
-        loadPage("/view/login.fxml");
+        loadPage("/view/login.fxml",event );
     }
 
     @FXML
@@ -103,15 +105,15 @@ public class MainLayout implements Initializable {
         }
     }
 
-    private void loadPage(String fxmlPath) throws IOException {
-        Stage currentStage = new Stage();
-        currentStage.close();
-        Scene scene = new Scene(FXMLLoader.load(getClass().getResource(fxmlPath)));
+    private void loadPage(String fxmlPath, MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
         Stage stage = new Stage();
-        stage.setScene(scene);
+        stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.setTitle("The Mental Health Therapy Center");
         stage.show();
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.close();
     }
 
     private void refreshPage(){

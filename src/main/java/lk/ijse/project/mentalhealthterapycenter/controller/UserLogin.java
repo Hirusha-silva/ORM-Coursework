@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -71,7 +72,7 @@ public class UserLogin implements Initializable {
 
         if (userFromDB && PasswordUtil.matches(password, passFromDB)) {
             SessionHolder.userName = username;
-            navigateToMainPage("/view/main-layout.fxml", "user", username);
+            navigateToMainPage("/view/main-layout.fxml", "user", username,event);
         } else {
             new Alert(Alert.AlertType.ERROR, "Login Failed..", ButtonType.OK).show();
         }
@@ -108,17 +109,17 @@ public class UserLogin implements Initializable {
         refreshPage();
         SessionHolder.currentRole = role;
     }
-    private void navigateToMainPage(String fxmlPath,String role,String userName) throws IOException {
+    private void navigateToMainPage(String fxmlPath,String role,String userName,ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Scene scene = new Scene(loader.load());
         MainLayout controller = loader.getController();
         controller.setUserRole(role);
         controller.setUserName(userName);
-        Stage currentStage = new Stage();
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("The Serenity Mental Health Therapy Center");
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.close();
         stage.show();
     }
