@@ -15,6 +15,7 @@ public class DAOFactory {
         return switch (daoType) {
             case USER ->(T) new UserDAOImpl();
             case PATIENT -> (T) new PatientDAOImpl();
+            case THERAPIST -> (T) new TherapistDAOImpl();
             default -> null;
         };
     }
