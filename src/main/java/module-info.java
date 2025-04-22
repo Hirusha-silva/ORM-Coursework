@@ -14,6 +14,7 @@ module lk.ijse.project.mentalhealthterapycenter {
     opens lk.ijse.project.mentalhealthterapycenter.config to jakarta.persistence;
     exports lk.ijse.project.mentalhealthterapycenter.dto to org.hibernate.orm.core;
 
+    opens lk.ijse.project.mentalhealthterapycenter.dto.tm to javafx.base;
     opens lk.ijse.project.mentalhealthterapycenter.entity to org.hibernate.orm.core;
     exports lk.ijse.project.mentalhealthterapycenter.entity;
 

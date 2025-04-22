@@ -28,5 +28,8 @@ public class ProgramDetails implements SuperEntity {
     @JoinColumn(name = "therapyProgramID")
     private TPrograms tPrograms;
 
+    @Column(name = "sessionID")
+    private String sessionID;
+
 }
 

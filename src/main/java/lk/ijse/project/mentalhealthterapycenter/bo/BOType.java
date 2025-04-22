@@ -1,5 +1,5 @@
 package lk.ijse.project.mentalhealthterapycenter.bo;
 
 public enum BOType {
-    USER
+    USER,PATIENT
 }

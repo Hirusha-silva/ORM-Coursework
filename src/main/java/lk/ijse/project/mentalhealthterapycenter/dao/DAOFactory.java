@@ -14,6 +14,7 @@ public class DAOFactory {
     public <T extends SuperDAO>T getDAO(DAOType daoType) {
         return switch (daoType) {
             case USER ->(T) new UserDAOImpl();
+            case PATIENT -> (T) new PatientDAOImpl();
             default -> null;
         };
     }

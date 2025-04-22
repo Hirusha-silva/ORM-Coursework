@@ -74,8 +74,8 @@ public class MainLayout implements Initializable {
     }
 
     @FXML
-    void patientsAction(MouseEvent event) {
-
+    void patientsAction(MouseEvent event) throws IOException {
+        navigateTo("/view/patients.fxml");
     }
 
     @FXML
