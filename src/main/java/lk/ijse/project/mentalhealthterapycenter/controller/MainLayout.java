@@ -70,7 +70,7 @@ public class MainLayout implements Initializable {
 
     @FXML
     void doctorDetailsAction(MouseEvent event) {
-
+        navigateTo("/view/therapist.fxml");
     }
 
     @FXML

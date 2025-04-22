@@ -1,22 +1,31 @@
 package lk.ijse.project.mentalhealthterapycenter.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.project.mentalhealthterapycenter.bo.BOFactory;
+import lk.ijse.project.mentalhealthterapycenter.bo.BOType;
+import lk.ijse.project.mentalhealthterapycenter.bo.custom.TherapistBO;
+import lk.ijse.project.mentalhealthterapycenter.dto.TherapistDTO;
+import lk.ijse.project.mentalhealthterapycenter.dto.tm.TherapistTm;
 
-public class Therapist {
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.ResourceBundle;
+
+public class Therapist implements Initializable {
 
     @FXML
     private Button delete;
 
     @FXML
-    private ComboBox<?> docAvailableCombo;
+    private ComboBox<String> docAvailableCombo;
 
     @FXML
     private TextField docContact;
@@ -31,7 +40,7 @@ public class Therapist {
     private TextField docName;
 
     @FXML
-    private ComboBox<?> docQualificationsCombo;
+    private ComboBox<String> docQualificationsCombo;
 
     @FXML
     private Button reset;
@@ -40,25 +49,25 @@ public class Therapist {
     private Button save;
 
     @FXML
-    private TableView<?> table;
+    private TableView<TherapistTm> table;
 
     @FXML
-    private TableColumn<?, ?> tableAvailable;
+    private TableColumn<TherapistTm,String> tableAvailable;
 
     @FXML
-    private TableColumn<?, ?> tableContact;
+    private TableColumn<TherapistTm,String> tableContact;
 
     @FXML
-    private TableColumn<?, ?> tableId;
+    private TableColumn<TherapistTm,String> tableId;
 
     @FXML
-    private TableColumn<?, ?> tableMail;
+    private TableColumn<TherapistTm, String> tableMail;
 
     @FXML
-    private TableColumn<?, ?> tableName;
+    private TableColumn<TherapistTm,String> tableName;
 
     @FXML
-    private TableColumn<?, ?> tableQualifications;
+    private TableColumn<TherapistTm,String> tableQualifications;
 
     @FXML
     private Button update;
@@ -66,29 +75,122 @@ public class Therapist {
     @FXML
     private Button viewActivities;
 
+    TherapistBO therapistBO = BOFactory.getInstance().getBO(BOType.THERAPIST);
+
     @FXML
     void TableAction(MouseEvent event) {
-
+        TherapistTm selectedPatient = table.getSelectionModel().getSelectedItem();
+        if (selectedPatient != null) {
+            docIDlabel.setText(selectedPatient.getDoctorID());
+            docName.setText(selectedPatient.getDoctorName());
+            docQualificationsCombo.setValue(selectedPatient.getDoctorQualifications());
+            docAvailableCombo.setValue(selectedPatient.getDoctorAvailability());
+            docContact.setText(selectedPatient.getDoctorPhone());
+            docMail.setText(selectedPatient.getDoctorEmail());
+        }
     }
 
     @FXML
-    void deleteBtnAction(ActionEvent event) {
-
+    void deleteBtnAction(ActionEvent event) throws Exception {
+        String patientID = docIDlabel.getText();
+        boolean isDeleted = therapistBO.deleteTherapist(patientID);
+        if (isDeleted) {
+            new Alert(Alert.AlertType.INFORMATION, "Deleted Successfully").show();
+            refreshPage();
+        }else {
+            new Alert(Alert.AlertType.ERROR, "Deletion Failed").show();
+        }
     }
 
     @FXML
-    void resetBtnAction(ActionEvent event) {
-
+    void resetBtnAction(ActionEvent event) throws Exception {
+        refreshPage();
     }
 
     @FXML
-    void saveBtnAction(ActionEvent event) {
+    void saveBtnAction(ActionEvent event) throws Exception {
+        String DoctorID = docIDlabel.getText();
+        String DocName = docName.getText();
+        String DocQualifications = docQualificationsCombo.getSelectionModel().getSelectedItem();
+        String DocAvailability = docAvailableCombo.getSelectionModel().getSelectedItem();
+        String DocPhone = docContact.getText();
+        String DocMail = docMail.getText();
 
+        String namePattern = "^[a-zA-Z ]+$";
+        String mailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        String PhoneNoPattern = "^\\+?[1-9]\\d{0,2}[-.\\s]?\\d{1,4}[-.\\s]?\\d{3,4}[-.\\s]?\\d{3,4}$";
+
+        boolean isValidName = DocName.matches(namePattern);
+        boolean isValidMail = DocMail.matches(mailPattern);
+        boolean isValidPhoneNO = DocPhone.matches(PhoneNoPattern);
+
+        if (!isValidName) {
+            docName.setStyle(docName.getStyle() + ";-fx-border-color: red;");
+        }
+        if (!isValidMail) {
+            docMail.setStyle(docMail.getStyle() + ";-fx-border-color: red;");
+        }
+        if (!isValidPhoneNO) {
+            docContact.setStyle(docContact.getStyle() + ";-fx-border-color: red;");
+        }
+        TherapistDTO doctorDTO = new TherapistDTO(
+                DoctorID,
+                DocName,
+                DocQualifications,
+                DocAvailability,
+                DocPhone,
+                DocMail
+        );
+        boolean isSaved = therapistBO.saveTherapist(doctorDTO);
+        if (isSaved) {
+            refreshPage();
+            new Alert(Alert.AlertType.INFORMATION,"Therapist Saved",ButtonType.OK).show();
+        }else{
+            new Alert(Alert.AlertType.ERROR,"Saving Failed",ButtonType.OK).show();
+        }
     }
 
     @FXML
-    void updateBtnAction(ActionEvent event) {
+    void updateBtnAction(ActionEvent event) throws Exception {
+        String DoctorID = docIDlabel.getText();
+        String DocName = docName.getText();
+        String DocQualifications = docQualificationsCombo.getSelectionModel().getSelectedItem();
+        String DocAvailability = docAvailableCombo.getSelectionModel().getSelectedItem();
+        String DocPhone = docContact.getText();
+        String DocMail = docMail.getText();
 
+        String namePattern = "^[a-zA-Z ]+$";
+        String mailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        String PhoneNoPattern = "^\\+?[1-9]\\d{0,2}[-.\\s]?\\d{1,4}[-.\\s]?\\d{3,4}[-.\\s]?\\d{3,4}$";
+
+        boolean isValidName = DocName.matches(namePattern);
+        boolean isValidMail = DocMail.matches(mailPattern);
+        boolean isValidPhoneNO = DocPhone.matches(PhoneNoPattern);
+
+        if (!isValidName) {
+            docName.setStyle(docName.getStyle() + ";-fx-border-color: red;");
+        }
+        if (!isValidMail) {
+            docMail.setStyle(docMail.getStyle() + ";-fx-border-color: red;");
+        }
+        if (!isValidPhoneNO) {
+            docContact.setStyle(docContact.getStyle() + ";-fx-border-color: red;");
+        }
+        TherapistDTO doctorDTO = new TherapistDTO(
+                DoctorID,
+                DocName,
+                DocQualifications,
+                DocAvailability,
+                DocPhone,
+                DocMail
+        );
+        boolean isSaved = therapistBO.updateTherapist(doctorDTO);
+        if (isSaved) {
+            refreshPage();
+            new Alert(Alert.AlertType.INFORMATION,"Therapist Saved",ButtonType.OK).show();
+        }else{
+            new Alert(Alert.AlertType.ERROR,"Saving Failed",ButtonType.OK).show();
+        }
     }
 
     @FXML
@@ -96,4 +198,50 @@ public class Therapist {
 
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        tableId.setCellValueFactory(new PropertyValueFactory<>("doctorID"));
+        tableName.setCellValueFactory(new PropertyValueFactory<>("doctorName"));
+        tableQualifications.setCellValueFactory(new PropertyValueFactory<>("doctorQualifications"));
+        tableAvailable.setCellValueFactory(new PropertyValueFactory<>("doctorAvailability"));
+        tableContact.setCellValueFactory(new PropertyValueFactory<>("doctorPhone"));
+        tableMail.setCellValueFactory(new PropertyValueFactory<>("doctorEmail"));
+
+        try{
+            refreshPage();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Error Failed to load Page", ButtonType.OK).show();
+        }
+    }
+    private void refreshPage() throws Exception {
+        loadTable();
+        docIDlabel.setText(therapistBO.getNextTherapyID());
+        docAvailableCombo.getItems().clear();
+        docQualificationsCombo.getItems().clear();
+        docAvailableCombo.setItems(FXCollections.observableArrayList("Available","Not Available"));
+        docQualificationsCombo.setItems(FXCollections.observableArrayList("Bsc","Msc","Phd"));
+        docName.clear();
+        docContact.clear();
+        docMail.clear();
+    }
+    private void loadTable() throws Exception {
+        List<TherapistDTO> doctorDTOS =  therapistBO.getALLDoctors();
+        if (doctorDTOS == null || doctorDTOS.isEmpty()) {
+            System.out.println("No data available");
+        }
+        ObservableList<TherapistTm> therapistTMS = FXCollections.observableArrayList();
+        for (TherapistDTO doctorDTO : doctorDTOS) {
+            TherapistTm therapistTM = new TherapistTm(
+                    doctorDTO.getDoctorID(),
+                    doctorDTO.getDoctorName(),
+                    doctorDTO.getDoctorQualifications(),
+                    doctorDTO.getDoctorAvailability(),
+                    doctorDTO.getDoctorPhone(),
+                    doctorDTO.getDoctorEmail()
+            );
+            therapistTMS.add(therapistTM);
+        }
+        table.setItems(therapistTMS);
+    }
 }
