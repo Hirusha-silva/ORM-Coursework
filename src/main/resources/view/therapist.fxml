@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="795.0" prefWidth="750.0" style="-fx-background-color: #D3D3D3;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.project.mentalhealthterapycenter.controller.Therapist">
+<AnchorPane prefHeight="795.0" prefWidth="750.0" style="-fx-background-color: #F8EFBA;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.project.mentalhealthterapycenter.controller.Therapist">
    <children>
       <Label layoutX="11.0" prefHeight="56.0" prefWidth="266.0" text="Therapist Details">
          <font>
