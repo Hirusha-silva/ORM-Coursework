@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="795.0" prefWidth="750.0" style="-fx-background-color: #F8EFBA;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.project.mentalhealthterapycenter.controller.Payment">
+   <children>
+      <Label layoutX="28.0" layoutY="-9.0" prefHeight="102.0" prefWidth="213.0" text="Payments">
+         <font>
+            <Font name="Baloo Bhaina 2 Medium" size="45.0" />
+         </font>
+      </Label>
+      <Line endX="531.1409912109375" endY="7.62939453125E-6" layoutX="131.0" layoutY="75.0" startX="-100.0" />
+      <TableView fx:id="table" layoutX="7.0" layoutY="181.0" prefHeight="522.0" prefWidth="736.0">
+         <columns>
+            <TableColumn fx:id="tablePayID" prefWidth="80.27604675292969" text="ID" />
+            <TableColumn fx:id="tablePayerName" prefWidth="141.26651000976562" text="Payer" />
+            <TableColumn fx:id="tablePayAmount" prefWidth="150.10427856445312" text="Amount" />
+            <TableColumn fx:id="tablePayMethod" prefWidth="119.81927490234375" text="Method" />
+            <TableColumn fx:id="tablePayDate" prefWidth="119.89178466796875" text="Date" />
+            <TableColumn fx:id="tablePayTime" prefWidth="118.9891357421875" text="Time" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

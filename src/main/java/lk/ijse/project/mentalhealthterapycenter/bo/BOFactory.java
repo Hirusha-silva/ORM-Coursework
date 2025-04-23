@@ -20,6 +20,7 @@ public class BOFactory {
             case THERAPIST -> (T) new TherapistBOImpl();
             case THERAPY_PROGRAMS -> (T) new TherapyProgramBOImpl();
             case APPOINTMENT -> (T) new AppointmentBOImpl();
+            case PAYMENT -> (T) new PaymentBOImpl();
 
         };
     }

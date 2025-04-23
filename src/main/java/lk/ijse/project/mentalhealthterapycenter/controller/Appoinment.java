@@ -8,14 +8,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.project.mentalhealthterapycenter.bo.BOFactory;
 import lk.ijse.project.mentalhealthterapycenter.bo.BOType;
 import lk.ijse.project.mentalhealthterapycenter.bo.custom.AppointmentBO;
+import lk.ijse.project.mentalhealthterapycenter.dto.PatientDTO;
 import lk.ijse.project.mentalhealthterapycenter.dto.PaymentDTO;
 import lk.ijse.project.mentalhealthterapycenter.dto.ProgramDetailsDTO;
 import lk.ijse.project.mentalhealthterapycenter.dto.SessionDTO;
@@ -25,10 +29,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 public class Appoinment implements Initializable {
 
@@ -215,13 +216,22 @@ public class Appoinment implements Initializable {
     }
 
     @FXML
-    void addDoctorsAction(MouseEvent event) {
-
+    void addDoctorsAction(MouseEvent event) throws IOException {
+        loadNewPage("/view/assign-doctors.fxml");
     }
 
     @FXML
-    void addProgramsAction(MouseEvent event) {
-
+    void addProgramsAction(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/select-programs.fxml"));
+        Parent root = loader.load();
+        SelectProgram selectProgramsController = loader.getController();
+        selectProgramsController.setAppointmentsController(this);
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("Doctor Details - Serenity Mental Health Therapy Center");
+        stage.show();
     }
 
     @FXML
@@ -231,12 +241,35 @@ public class Appoinment implements Initializable {
 
     @FXML
     void resetAction(ActionEvent event) {
-
+        refreshPage();
     }
 
     @FXML
     void searchPatientAction(MouseEvent event) {
+        String searchBYName = search.getText();
+        if (searchBYName.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Enter a Name to Search", ButtonType.OK,ButtonType.CANCEL);
+            return;
+        }
+        List<PatientDTO> isSearching = appointmentBO.searchPatientBYName(searchBYName);
 
+        if (isSearching.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No Name Found as " + searchBYName, ButtonType.OK,ButtonType.CANCEL);
+            alert.showAndWait().orElse(ButtonType.CANCEL);
+            return;
+        }
+        for (PatientDTO patientDTO : isSearching) {
+            patientID.setText(patientDTO.getPatientID());
+            patientName.setText(patientDTO.getPatientName());
+            patientDOB.setText(patientDTO.getPatientBirthDate());
+            patientNIC.setText(patientDTO.getPatientNIC());
+            patientTelNO.setText(patientDTO.getPatientPhone());
+            patientGender.setText(patientDTO.getPatientGender());
+            patientAddress.setText(patientDTO.getPatientAddress());
+            patientEMAIL.setText(patientDTO.getPatientEmail());
+        }
+        vbox1.setVisible(true);
+        vbox2.setVisible(true);
     }
 
     @FXML
@@ -300,7 +333,6 @@ public class Appoinment implements Initializable {
         try {
             appointmentPage.getChildren().clear();
             AnchorPane load = FXMLLoader.load(getClass().getResource(fxmlPath));
-            load.getStylesheets().add(getClass().getResource("/css/h.css").toExternalForm());
             load.prefWidthProperty().bind(appointmentPage.widthProperty());
             load.prefHeightProperty().bind(appointmentPage.heightProperty());
             appointmentPage.getChildren().add(load);
@@ -308,5 +340,22 @@ public class Appoinment implements Initializable {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Fail to load page!").show();
         }
+    }
+    private void loadNewPage(String fxmlPath) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        Parent root = loader.load();
+        if (fxmlPath.equals("/view/assign-doctors.fxml")) {
+            AssignDoctor assignDoctorsController = loader.getController();
+            assignDoctorsController.setAppointmentsController(this);
+        } else if (fxmlPath.equals("/view/select-programs.fxml")) {
+            SelectProgram selectProgramsController = loader.getController();
+            selectProgramsController.setAppointmentsController(this);
+        }
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("Doctor Details - Serenity Mental Health Therapy Center");
+        stage.show();
     }
 }
