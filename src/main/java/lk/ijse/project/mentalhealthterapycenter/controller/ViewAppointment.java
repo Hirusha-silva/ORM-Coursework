@@ -13,7 +13,7 @@ import javafx.scene.input.MouseEvent;
 public class ViewAppointment {
 
     @FXML
-    private ComboBox<?> ComboDocId;
+    private ComboBox<String> ComboDocId;
 
     @FXML
     private TableView<?> Table;
