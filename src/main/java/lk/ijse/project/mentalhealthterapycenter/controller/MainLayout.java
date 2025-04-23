@@ -65,7 +65,7 @@ public class MainLayout implements Initializable {
 
     @FXML
     void appointmentsAction(MouseEvent event) {
-
+        navigateTo("/view/appoinments.fxml");
     }
 
     @FXML
@@ -90,7 +90,7 @@ public class MainLayout implements Initializable {
 
     @FXML
     void therapyProgramAction(MouseEvent event) {
-
+        navigateTo("/view/programs.fxml");
     }
 
     public void setUserRole(String role) {
@@ -118,7 +118,7 @@ public class MainLayout implements Initializable {
 
     private void refreshPage(){
         String s = SessionHolder.userName;
-        //navigateTo("/view/appointments.fxml");
+        navigateTo("/view/appoinments.fxml");
     }
 
     public void navigateTo(String fxmlPath) {

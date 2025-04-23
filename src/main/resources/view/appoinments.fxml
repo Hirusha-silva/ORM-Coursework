@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="795.0" prefWidth="750.0" style="-fx-background-color: #F8EFBA;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.project.mentalhealthterapycenter.controller.Appoinment">
+   <children>
+      <Label layoutX="18.0" layoutY="-9.0" prefHeight="54.0" prefWidth="199.0" text="Appoinments">
+         <font>
+            <Font name="Baloo Bhaina 2 Medium" size="27.0" />
+         </font>
+      </Label>
+      <Line endX="526.2034301757812" endY="7.62939453125E-6" layoutX="171.0" layoutY="46.0" startX="-153.0" startY="7.62939453125E-6" />
+      <Pane layoutX="8.0" layoutY="56.0" prefHeight="231.0" prefWidth="732.0" style="-fx-background-color: #273c75; -fx-background-radius: 12;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Label layoutX="8.0" prefHeight="36.0" prefWidth="97.0" text="Patients Detail" textFill="#fcfcfc">
+               <font>
+                  <Font name="Baloo Bhaina 2 Medium" size="15.0" />
+               </font>
+            </Label>
+            <Line endX="330.76593017578125" endY="1.0" layoutX="197.0" layoutY="35.0" startX="-189.0" startY="1.0" stroke="WHITE" />
+            <TextField fx:id="search" layoutX="121.0" layoutY="74.0" prefHeight="32.0" prefWidth="211.0" promptText="Search Patient" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0 0 1px 0;">
+               <font>
+                  <Font name="Consolas Bold" size="16.0" />
+               </font>
+            </TextField>
+            <Button fx:id="searchPatient" layoutX="5.0" layoutY="83.0" mnemonicParsing="false" onMouseClicked="#searchPatientAction" prefHeight="18.0" prefWidth="100.0" style="-fx-background-color: #CAD3C8; -fx-background-radius: 12;" text="Search ">
+               <font>
+                  <Font name="Impact" size="14.0" />
+               </font>
+            </Button>
+            <VBox fx:id="vbox1" layoutX="359.0" layoutY="46.0" prefHeight="172.0" prefWidth="158.0">
+               <children>
+                  <Label fx:id="patientID" prefHeight="30.0" prefWidth="174.0" text="Patient ID" textFill="WHITE">
+                     <font>
+                        <Font name="Serif Bold" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="patientName" prefHeight="28.0" prefWidth="178.0" text="Patient Name" textFill="WHITE">
+                     <font>
+                        <Font name="Serif Bold" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="patientDOB" prefHeight="28.0" prefWidth="178.0" text="DOB" textFill="WHITE">
+                     <font>
+                        <Font name="Serif Bold" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="patientNIC" prefHeight="30.0" prefWidth="182.0" text="NIC" textFill="WHITE">
+                     <font>
+                        <Font name="Serif Bold" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox fx:id="vbox2" layoutX="554.0" layoutY="41.0" prefHeight="172.0" prefWidth="139.0">
+               <children>
+                  <Label fx:id="patientGender" prefHeight="28.0" prefWidth="166.0" text="Gender" textFill="#fcf7f7">
+                     <font>
+                        <Font name="Georgia" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="patientAddress" prefHeight="28.0" prefWidth="166.0" text="Address" textFill="#fcf7f7">
+                     <font>
+                        <Font name="Georgia" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="patientTelNO" prefHeight="28.0" prefWidth="174.0" text="TEl" textFill="#fcf7f7">
+                     <font>
+                        <Font name="Georgia" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="patientEMAIL" prefHeight="28.0" prefWidth="167.0" text="Mail" textFill="#fcf7f7">
+                     <font>
+                        <Font name="Georgia" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+      <Pane layoutX="9.0" layoutY="303.0" prefHeight="231.0" prefWidth="733.0" style="-fx-background-color: #273c75; -fx-background-radius: 12;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <children>
+            <VBox layoutX="13.0" layoutY="55.0" prefHeight="163.0" prefWidth="128.0">
+               <children>
+                  <Label prefHeight="28.0" prefWidth="130.0" text="Session ID" textFill="WHITE">
+                     <font>
+                        <Font name="Georgia" size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+                  <Label prefHeight="28.0" prefWidth="130.0" text="Time" textFill="WHITE">
+                     <font>
+                        <Font name="Georgia" size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+                  <Label prefHeight="30.0" prefWidth="129.0" text="Special Notes" textFill="WHITE">
+                     <font>
+                        <Font name="Georgia" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+                  <Label prefHeight="30.0" prefWidth="130.0" text="Date" textFill="WHITE">
+                     <font>
+                        <Font name="Georgia" size="16.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </VBox>
+            <Label layoutX="10.0" prefHeight="36.0" prefWidth="108.0" text="Session Details" textFill="#fcfcfc">
+               <font>
+                  <Font name="Baloo Bhaina 2 Medium" size="15.0" />
+               </font>
+            </Label>
+            <Line endX="431.2734375" endY="-1.0" layoutX="118.0" layoutY="37.0" startX="-107.99998474121094" startY="-1.0" stroke="#fffbfb" />
+            <Label fx:id="sessionID" layoutX="182.0" layoutY="61.0" prefHeight="28.0" prefWidth="130.0" text="Session ID" textFill="WHITE">
+               <font>
+                  <Font name="Serif Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="sessionTime" layoutX="159.0" layoutY="100.0" prefHeight="26.0" prefWidth="182.0" promptText="00:00:00" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0 0 1px 0;">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="sessionNotes" layoutX="160.0" layoutY="143.0" prefHeight="26.0" prefWidth="182.0" style="-fx-background-color: transparent; -fx-border-color: White; -fx-border-width: 0 0 1px 0;">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font>
+            </TextField>
+            <DatePicker fx:id="sessionDate" layoutX="160.0" layoutY="198.0" prefHeight="26.0" prefWidth="182.0" />
+            <Button fx:id="addDoctors" layoutX="379.0" layoutY="105.0" mnemonicParsing="false" onMouseClicked="#addDoctorsAction" prefHeight="27.0" prefWidth="107.0" style="-fx-background-color: #CAD3C8; -fx-background-radius: 12;" text="Assign Doctors">
+               <font>
+                  <Font name="Impact" size="14.0" />
+               </font>
+            </Button>
+            <Label fx:id="docLoadLabel" alignment="TOP_LEFT" layoutX="390.0" layoutY="147.0" prefHeight="48.0" prefWidth="101.0" text="Session ID" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Serif Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="addPrograms" layoutX="563.0" layoutY="64.0" mnemonicParsing="false" onMouseClicked="#addProgramsAction" prefHeight="27.0" prefWidth="128.0" style="-fx-background-color: #CAD3C8; -fx-background-radius: 12;" text="Choose  Programs">
+               <font>
+                  <Font name="Impact" size="14.0" />
+               </font>
+            </Button>
+            <ListView fx:id="programmsListView" layoutX="534.0" layoutY="113.0" prefHeight="111.0" prefWidth="188.0" />
+         </children>
+      </Pane>
+      <Pane layoutX="8.0" layoutY="548.0" prefHeight="231.0" prefWidth="733.0" style="-fx-background-color: #273c75; -fx-background-radius: 12;">
+         <children>
+            <VBox layoutX="27.0" layoutY="57.0" prefHeight="94.0" prefWidth="133.0">
+               <children>
+                  <Label prefHeight="28.0" prefWidth="130.0" text="Payment ID" textFill="WHITE">
+                     <font>
+                        <Font name="Georgia" size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+                  <Label prefHeight="28.0" prefWidth="130.0" text="Amount" textFill="WHITE">
+                     <font>
+                        <Font name="Georgia" size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </VBox>
+            <Label fx:id="paymentID" layoutX="189.0" layoutY="58.0" prefHeight="31.0" prefWidth="112.0" text="Payment ID" textFill="WHITE">
+               <font>
+                  <Font name="Serif Bold" size="16.0" />
+               </font>
+               <padding>
+                  <Insets top="12.0" />
+               </padding>
+            </Label>
+            <TextField fx:id="payAMOUNT" layoutX="186.0" layoutY="109.0" prefHeight="26.0" prefWidth="182.0" promptText="Rs.0000" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0 0 1px 0;">
+               <font>
+                  <Font name="Consolas" size="13.0" />
+               </font>
+            </TextField>
+            <Label layoutX="9.0" prefHeight="36.0" prefWidth="108.0" text="Session Details" textFill="#fcfcfc">
+               <font>
+                  <Font name="Baloo Bhaina 2 Medium" size="15.0" />
+               </font>
+            </Label>
+            <Line endX="431.2734375" endY="-1.0" layoutX="118.0" layoutY="38.0" startX="-107.99998474121094" startY="-1.0" stroke="#fffbfb" />
+            <VBox layoutX="385.0" layoutY="68.0" prefHeight="53.0" prefWidth="133.0">
+               <children>
+                  <Label prefHeight="48.0" prefWidth="128.0" text="Payment Method" textFill="WHITE">
+                     <font>
+                        <Font name="Georgia" size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="12.0" top="12.0" />
+                     </padding>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </VBox>
+            <ComboBox fx:id="paymentMethod" layoutX="518.0" layoutY="76.0" prefHeight="27.0" prefWidth="204.0" promptText="Select your payment method" style="-fx-background-color: #CAD3C8; -fx-border-color: white; -fx-border-width: 0 0 1px 0;" />
+            <Button fx:id="addAppointmentBTN" layoutX="19.0" layoutY="176.0" mnemonicParsing="false" onAction="#addAppointmentBTNAction" prefHeight="36.0" prefWidth="172.0" style="-fx-background-radius: 11; -fx-background-color: #CAD3C8;" text="Add Appointments" textFill="#0a0a0a">
+               <font>
+                  <Font name="Georgia Bold" size="15.0" />
+               </font>
+               <effect>
+                  <DropShadow>
+                     <input>
+                        <Glow />
+                     </input>
+                  </DropShadow>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="reset" layoutX="212.0" layoutY="176.0" mnemonicParsing="false" onAction="#resetAction" prefHeight="36.0" prefWidth="145.0" style="-fx-background-radius: 11; -fx-background-color: #CAD3C8;" text="Reset Details" textFill="#0a0a0a">
+               <font>
+                  <Font name="Georgia Bold" size="15.0" />
+               </font>
+               <effect>
+                  <DropShadow>
+                     <input>
+                        <Glow />
+                     </input>
+                  </DropShadow>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="viewAppointmentsBTN" layoutX="379.0" layoutY="175.0" mnemonicParsing="false" onAction="#viewAppointmentsBTNAction" prefHeight="36.0" prefWidth="178.0" style="-fx-background-radius: 11; -fx-background-color: #CAD3C8;" text="View Appointments" textFill="#0a0a0a">
+               <font>
+                  <Font name="Georgia Bold" size="15.0" />
+               </font>
+               <effect>
+                  <DropShadow>
+                     <input>
+                        <Glow />
+                     </input>
+                  </DropShadow>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="printBillBTN" layoutX="579.0" layoutY="175.0" mnemonicParsing="false" onAction="#printBillBTNAction" prefHeight="36.0" prefWidth="133.0" style="-fx-background-radius: 11; -fx-background-color: #CAD3C8;" text="Print the Bill" textFill="#0a0a0a">
+               <font>
+                  <Font name="Georgia Bold" size="15.0" />
+               </font>
+               <effect>
+                  <DropShadow>
+                     <input>
+                        <Glow />
+                     </input>
+                  </DropShadow>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </Pane>
+      <Label layoutX="402.0" layoutY="6.0" prefHeight="36.0" prefWidth="50.0" text="Date :">
+         <font>
+            <Font name="Impact" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="date" layoutX="457.0" layoutY="6.0" prefHeight="36.0" prefWidth="114.0" text="dd/mm/yy">
+         <font>
+            <Font name="Impact" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="593.0" layoutY="6.0" prefHeight="36.0" prefWidth="42.0" text="Time:">
+         <font>
+            <Font name="Impact" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="time" layoutX="641.0" layoutY="6.0" prefHeight="36.0" prefWidth="63.0" text="00:00:00">
+         <font>
+            <Font name="Impact" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
