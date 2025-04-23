@@ -1,28 +1,39 @@
 package lk.ijse.project.mentalhealthterapycenter.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.project.mentalhealthterapycenter.bo.BOFactory;
+import lk.ijse.project.mentalhealthterapycenter.bo.BOType;
+import lk.ijse.project.mentalhealthterapycenter.bo.custom.AppointmentBO;
+import lk.ijse.project.mentalhealthterapycenter.dto.PaymentDTO;
+import lk.ijse.project.mentalhealthterapycenter.dto.ProgramDetailsDTO;
+import lk.ijse.project.mentalhealthterapycenter.dto.SessionDTO;
+import lk.ijse.project.mentalhealthterapycenter.dto.ViewSessionDTO;
+import lk.ijse.project.mentalhealthterapycenter.dto.tm.ViewSessionTm;
 
-public class ViewAppointment {
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.*;
+
+public class ViewAppointment implements Initializable {
 
     @FXML
     private ComboBox<String> ComboDocId;
 
     @FXML
-    private TableView<?> Table;
+    private TableView<ViewSessionTm> Table;
 
     @FXML
     private Button cancelBTN;
 
     @FXML
-    private ComboBox<?> comboPaymentMethod;
+    private ComboBox<String> comboPaymentMethod;
 
     @FXML
     private Label labelPatientName;
@@ -40,37 +51,37 @@ public class ViewAppointment {
     private Button resetBTN;
 
     @FXML
-    private TableColumn<?, ?> tableDocID;
+    private TableColumn<ViewSessionTm, String> tableDocID;
 
     @FXML
-    private TableColumn<?, ?> tablePatientName;
+    private TableColumn<ViewSessionTm, String> tablePatientName;
 
     @FXML
-    private TableColumn<?, ?> tablePaymentAmount;
+    private TableColumn<ViewSessionTm, Double> tablePaymentAmount;
 
     @FXML
-    private TableColumn<?, ?> tablePaymentID;
+    private TableColumn<ViewSessionTm, String> tablePaymentID;
 
     @FXML
-    private TableColumn<?, ?> tablePaymentMethod;
+    private TableColumn<ViewSessionTm,String> tablePaymentMethod;
 
     @FXML
-    private TableColumn<?, ?> tableProgramID;
+    private TableColumn<ViewSessionTm,String> tableProgramID;
 
     @FXML
-    private TableColumn<?, ?> tableSessionDate;
+    private TableColumn<ViewSessionTm, Date> tableSessionDate;
 
     @FXML
-    private TableColumn<?, ?> tableSessionID;
+    private TableColumn<ViewSessionTm, String> tableSessionID;
 
     @FXML
-    private TableColumn<?, ?> tableSessionNotes;
+    private TableColumn<ViewSessionTm,String> tableSessionNotes;
 
     @FXML
-    private TableColumn<?, ?> tableSessionStatus;
+    private TableColumn<ViewSessionTm, String> tableSessionStatus;
 
     @FXML
-    private TableColumn<?, ?> tableSessionTime;
+    private TableColumn<ViewSessionTm, String> tableSessionTime;
 
     @FXML
     private TextField textSessionDate;
@@ -84,24 +95,182 @@ public class ViewAppointment {
     @FXML
     private TextField txtSessionNotes;
 
-    @FXML
-    void cancelBTNAction(ActionEvent event) {
+    private Set<String> programIDs = new HashSet<>();
 
+    AppointmentBO appointmentBO =  BOFactory.getInstance().getBO(BOType.APPOINTMENT);
+
+    @FXML
+    void cancelBTNAction(ActionEvent event) throws Exception {
+        String id = labelSessionID.getText();
+        ViewSessionTm viewSessionTM = Table.getSelectionModel().getSelectedItem();
+
+        if (viewSessionTM == null) {
+            new Alert(Alert.AlertType.WARNING, "Please select an appointment from the table first.").showAndWait();
+            return;
+        }
+
+        String currentStatus = viewSessionTM.getAppointmentStatus();
+
+        if ("Appointment Cancelled".equalsIgnoreCase(currentStatus)) {
+            new Alert(Alert.AlertType.ERROR, "Appointment has already been cancelled.").showAndWait();
+            return;
+        }
+
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to cancel this appointment?", ButtonType.YES, ButtonType.NO);
+        Optional<ButtonType> result = confirmation.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.YES) {
+            boolean isCancelled = appointmentBO.cancelAppointment(id);
+            if (isCancelled) {
+                refreshPage(); // update table if needed
+                new Alert(Alert.AlertType.INFORMATION, "Appointment cancelled successfully!").showAndWait();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Failed to cancel appointment!").showAndWait();
+            }
+        }
     }
 
     @FXML
-    void rescheduleBTNAction(ActionEvent event) {
+    void rescheduleBTNAction(ActionEvent event) throws Exception {
+        String appointmentID = labelSessionID.getText();
+        String appointmentDate = textSessionDate.getText();
+        String appointmentNotes = txtSessionNotes.getText();
+        String appointmentTime = textSessionTime.getText();
+        String doctorID = ComboDocId.getValue();
+        String patientName = labelPatientName.getText();
+        String paymentID = labelPaymentID.getText();
+        Double paymentAmount = Double.valueOf(txtPaymentAmount.getText());
+        String paymentMethod = comboPaymentMethod.getValue();
+        String patientId = appointmentBO.searchPatientID(patientName);
 
+        if (appointmentID.isEmpty()||appointmentDate.isEmpty() || doctorID.isEmpty() || patientId.isEmpty() || paymentID.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR,"Please enter appointment details").show();
+        }
+
+        ProgramDetailsDTO programDetailsDTO = new ProgramDetailsDTO(
+                patientId,
+                new ArrayList<>(programIDs)  /*List required as one patient can choose more than one programs*/
+
+        );
+        SessionDTO sessionDTO = new SessionDTO(
+                appointmentID,
+                patientId,
+                doctorID,
+                appointmentTime,
+                appointmentNotes,
+                appointmentDate
+        );
+        PaymentDTO paymentDTO = new PaymentDTO(
+                paymentID,
+                patientName,
+                paymentAmount,
+                paymentMethod
+
+        );
+
+        System.out.println("Selected program IDs: " + programDetailsDTO.getProgramId());
+
+        boolean isSaved = appointmentBO.updateAppointments(programDetailsDTO,sessionDTO,paymentDTO);
+        if (isSaved) {
+            refreshPage();
+            new Alert(Alert.AlertType.INFORMATION, "Appointment added", ButtonType.OK).show();
+        }else {
+            new Alert(Alert.AlertType.ERROR, "Failed! Appointment not added", ButtonType.OK).show();
+        }
     }
 
     @FXML
     void resetBTNAction(ActionEvent event) {
-
+        labelPaymentID.setVisible(false);
+        labelSessionID.setVisible(false);
+        textSessionDate.clear();
+        textSessionTime.clear();
+        txtPaymentAmount.clear();
+        txtSessionNotes.clear();
+        labelPatientName.setText("");
+        comboPaymentMethod.getItems().clear();
+        comboPaymentMethod.setItems(FXCollections.observableArrayList("Card Payment","Cash Payment"));
+        ComboDocId.getItems().clear();
     }
 
     @FXML
     void tableAction(MouseEvent event) {
-
+        ViewSessionTm selectedItem = Table.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            labelPaymentID.setVisible(true);
+            labelSessionID.setVisible(true);
+            labelSessionID.setText(selectedItem.getSessionID());
+            textSessionDate.setText(selectedItem.getSessionDate());
+            txtSessionNotes.setText(selectedItem.getSessionNotes());
+            textSessionTime.setText(selectedItem.getSessionTime());
+            ComboDocId.setValue(selectedItem.getDoctorID());
+            labelPatientName.setText(selectedItem.getPatientName());
+            labelPaymentID.setText(String.valueOf(selectedItem.getPaymentID()));
+            txtPaymentAmount.setText(String.valueOf(selectedItem.getPaymentAmount()));
+            comboPaymentMethod.setValue(selectedItem.getPaymentMethod());
+        }
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        tableSessionID.setCellValueFactory(new PropertyValueFactory<>("sessionID"));
+        tableSessionDate.setCellValueFactory(new PropertyValueFactory<>("sessionDate"));
+        tableSessionNotes.setCellValueFactory(new PropertyValueFactory<>("sessionNotes"));
+        tableSessionTime.setCellValueFactory(new PropertyValueFactory<>("sessionTime"));
+        tableDocID.setCellValueFactory(new PropertyValueFactory<>("doctorID"));
+        tableProgramID.setCellValueFactory(new PropertyValueFactory<>("programID"));
+        tablePatientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));
+        tablePaymentID.setCellValueFactory(new PropertyValueFactory<>("paymentID"));
+        tablePaymentAmount.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
+        tablePaymentMethod.setCellValueFactory(new PropertyValueFactory<>("paymentMethod"));
+        tableSessionStatus.setCellValueFactory(new PropertyValueFactory<>("appointmentStatus"));
+
+        try{
+            refreshPage();
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,"Failed to Load Page SQL ERROR").showAndWait();
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            new Alert(Alert.AlertType.ERROR,"Failed to Load Page ClassNotFound").showAndWait();
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void refreshPage() throws Exception {
+        loadTable();
+        labelPaymentID.setVisible(false);
+        labelSessionID.setVisible(false);
+        textSessionDate.clear();
+        textSessionTime.clear();
+        txtPaymentAmount.clear();
+        txtSessionNotes.clear();
+        labelPatientName.setText("");
+        comboPaymentMethod.setItems(FXCollections.observableArrayList("Card Payment","Cash Payment"));
+        ComboDocId.setItems(FXCollections.observableArrayList(appointmentBO.loadDoctorIds()));
+    }
+    private void loadTable(){
+        List<ViewSessionDTO> viewSessionDTOS =  appointmentBO.getAllAppointments();
+        ObservableList<ViewSessionTm> viewSessionTMS = FXCollections.observableArrayList();
+        for (ViewSessionDTO viewSessionDTO : viewSessionDTOS) {
+
+            ViewSessionTm viewSessionTM = new ViewSessionTm(
+                    viewSessionDTO.getSessionID(),
+                    viewSessionDTO.getSessionDate(),
+                    viewSessionDTO.getSessionNotes(),
+                    viewSessionDTO.getSessionTime(),
+                    viewSessionDTO.getDoctorID(),
+                    viewSessionDTO.getPrograms(),
+                    viewSessionDTO.getPatientName(),
+                    viewSessionDTO.getPaymentID(),
+                    viewSessionDTO.getPaymentAmount(),
+                    viewSessionDTO.getPaymentMethod(),
+                    viewSessionDTO.getAppointmentStatus()
+            );
+            viewSessionTMS.add(viewSessionTM);
+        }
+        Table.setItems(viewSessionTMS);
+    }
 }
