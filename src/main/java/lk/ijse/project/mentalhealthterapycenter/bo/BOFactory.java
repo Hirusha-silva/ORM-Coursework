@@ -1,9 +1,6 @@
 package lk.ijse.project.mentalhealthterapycenter.bo;
 
-import lk.ijse.project.mentalhealthterapycenter.bo.custom.impl.PatientBOImpl;
-import lk.ijse.project.mentalhealthterapycenter.bo.custom.impl.TherapistBOImpl;
-import lk.ijse.project.mentalhealthterapycenter.bo.custom.impl.TherapyProgramBOImpl;
-import lk.ijse.project.mentalhealthterapycenter.bo.custom.impl.UserBOImpl;
+import lk.ijse.project.mentalhealthterapycenter.bo.custom.impl.*;
 
 public class BOFactory {
     public static BOFactory boFactory;
@@ -22,6 +19,7 @@ public class BOFactory {
             case PATIENT -> (T) new PatientBOImpl();
             case THERAPIST -> (T) new TherapistBOImpl();
             case THERAPY_PROGRAMS -> (T) new TherapyProgramBOImpl();
+            case APPOINTMENT -> (T) new AppointmentBOImpl();
 
         };
     }
