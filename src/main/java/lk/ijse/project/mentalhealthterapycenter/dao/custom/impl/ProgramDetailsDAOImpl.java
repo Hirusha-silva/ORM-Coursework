@@ -10,18 +10,35 @@ import java.util.Optional;
 
 public class ProgramDetailsDAOImpl implements ProgramDetailsDAO {
     @Override
-    public List<ProgramDetails> getByPatientAndSession(String patientID, String id, Session session) {
-        return List.of();
+    public List<ProgramDetails> getByPatientAndSession(String patientID, String sessionID, Session session) {
+        String hql = "FROM ProgramDetails pd WHERE pd.patient.patientID = :pid AND pd.sessionID = :sid";
+        return session.createQuery(hql, ProgramDetails.class)
+                .setParameter("pid", patientID)
+                .setParameter("sid", sessionID)
+                .getResultList();
     }
 
     @Override
     public boolean save(ProgramDetails programDetails, Session session) throws SQLException {
-        return false;
+        try{
+            session.persist(programDetails);
+            session.flush();
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
     public boolean update(ProgramDetails programDetails, Session session) throws SQLException, ClassNotFoundException {
-        return false;
+        try{
+            session.merge(programDetails);
+            session.flush();
+            return true;
+        }catch(Exception e){
+            throw new RuntimeException();
+        }
     }
 
     @Override
@@ -36,7 +53,12 @@ public class ProgramDetailsDAOImpl implements ProgramDetailsDAO {
 
     @Override
     public Optional<ProgramDetails> findByPK(String pk, Session session) throws SQLException {
-        return Optional.empty();
+        ProgramDetails programDetails = session.get(ProgramDetails.class, pk);
+        session.close();
+        if (programDetails == null) {
+            return Optional.empty();
+        }
+        return Optional.of(programDetails);
     }
 
     @Override
