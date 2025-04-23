@@ -15,7 +15,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/main-layout.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("The Mental Health Therapy Center");
+        stage.setTitle("The Serenity Mental Health Therapy Center");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

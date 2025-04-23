@@ -80,7 +80,7 @@ public class MainLayout implements Initializable {
 
     @FXML
     void paymentsAction(MouseEvent event) {
-
+        navigateTo("/view/payment.fxml");
     }
 
     @FXML
