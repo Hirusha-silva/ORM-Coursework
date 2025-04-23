@@ -117,6 +117,21 @@
                   </Label>
                </children>
             </VBox>
+            <Button fx:id="PatientsBTN" layoutX="8.0" layoutY="165.0" mnemonicParsing="false" onAction="#PatientsBTNAction" prefHeight="32.0" prefWidth="133.0" style="-fx-background-radius: 11; -fx-background-color: #CAD3C8;" text="Patients" textFill="#0a0a0a">
+               <font>
+                  <Font name="Georgia Bold" size="15.0" />
+               </font>
+               <effect>
+                  <DropShadow>
+                     <input>
+                        <Glow />
+                     </input>
+                  </DropShadow>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </Pane>
       <Pane layoutX="9.0" layoutY="303.0" prefHeight="231.0" prefWidth="733.0" style="-fx-background-color: #273c75; -fx-background-radius: 12;">

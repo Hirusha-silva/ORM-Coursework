@@ -5,7 +5,9 @@ import lk.ijse.project.mentalhealthterapycenter.config.FactoryConfiguration;
 import lk.ijse.project.mentalhealthterapycenter.dao.DAOFactory;
 import lk.ijse.project.mentalhealthterapycenter.dao.DAOType;
 import lk.ijse.project.mentalhealthterapycenter.dao.custom.PatientDAO;
+import lk.ijse.project.mentalhealthterapycenter.dao.custom.QueryDAO;
 import lk.ijse.project.mentalhealthterapycenter.dto.PatientDTO;
+import lk.ijse.project.mentalhealthterapycenter.dto.PatientsInEveryProgramDTO;
 import lk.ijse.project.mentalhealthterapycenter.entity.Patient;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -17,6 +19,7 @@ import java.util.Optional;
 
 public class PatientBOImpl implements PatientBO {
     PatientDAO patientDAO = DAOFactory.getInstance().getDAO(DAOType.PATIENT);
+    QueryDAO queryDAO = DAOFactory.getInstance().getDAO(DAOType.QUERY);
     @Override
     public boolean updatePatient(PatientDTO patientDTO) throws SQLException, ClassNotFoundException {
         Session session = FactoryConfiguration.getInstance().getSession();
@@ -118,5 +121,10 @@ public class PatientBOImpl implements PatientBO {
         } else {
             return "P001";
         }
+    }
+
+    @Override
+    public List<PatientsInEveryProgramDTO> getPatientsInEveryProgram() {
+        return queryDAO.getPatientsInEveryProgram();
     }
 }

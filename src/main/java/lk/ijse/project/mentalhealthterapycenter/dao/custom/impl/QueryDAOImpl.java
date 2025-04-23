@@ -37,7 +37,6 @@ public class QueryDAOImpl implements QueryDAO {
 
             List<Object[]> resultList = query.list();
 
-            // Convert the result list into ViewSessionDTO
             List<ViewSessionDTO> sessions = new ArrayList<>();
             Map<String, ViewSessionDTO> sessionMap = new HashMap<>();
 
@@ -110,7 +109,7 @@ public class QueryDAOImpl implements QueryDAO {
                 String sessionId = (String) result[3];
                 String sessionDate = (String) result[4];
                 String sessionTime = (String) result[5];
-                String programs = (String) result[6]; // This is a comma-separated string
+                String programs = (String) result[6];
 
                 MedicalHistoryDTO dto = historyMap.get(sessionId);
                 if (dto == null) {

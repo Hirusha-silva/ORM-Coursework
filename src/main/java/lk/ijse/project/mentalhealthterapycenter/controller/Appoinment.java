@@ -19,13 +19,18 @@ import javafx.util.Duration;
 import lk.ijse.project.mentalhealthterapycenter.bo.BOFactory;
 import lk.ijse.project.mentalhealthterapycenter.bo.BOType;
 import lk.ijse.project.mentalhealthterapycenter.bo.custom.AppointmentBO;
+import lk.ijse.project.mentalhealthterapycenter.config.FactoryConfiguration;
 import lk.ijse.project.mentalhealthterapycenter.dto.PatientDTO;
 import lk.ijse.project.mentalhealthterapycenter.dto.PaymentDTO;
 import lk.ijse.project.mentalhealthterapycenter.dto.ProgramDetailsDTO;
 import lk.ijse.project.mentalhealthterapycenter.dto.SessionDTO;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
+import org.hibernate.Session;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -119,6 +124,10 @@ public class Appoinment implements Initializable {
 
     @FXML
     private VBox vbox2;
+
+
+    @FXML
+    private Button PatientsBTN;
 
     private String ProgramID;
 
@@ -236,7 +245,39 @@ public class Appoinment implements Initializable {
 
     @FXML
     void printBillBTNAction(ActionEvent event) {
+        Optional<String> sessionId = appointmentBO.getLastAptID();
+        if (sessionId.isPresent()) {
+            System.out.println(sessionId.get() + " is present");
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Appointment ID not found").show();
+            return;
+        }
 
+        Session session = null;
+        try {
+            session = FactoryConfiguration.getInstance().getSession();
+            Connection connection = session.doReturningWork(con -> con);
+
+            JasperReport jasperReport = JasperCompileManager.compileReport(
+                    getClass().getResourceAsStream("/report/MentalTherapyHibernate.jrxml"));
+
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("sessionId", sessionId.get());
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+            JasperViewer.viewReport(jasperPrint, false);
+
+        } catch (JRException e) {
+            new Alert(Alert.AlertType.ERROR, "Fail to load Report").show();
+            e.printStackTrace();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "DB Error").show();
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
     }
 
     @FXML
@@ -273,8 +314,8 @@ public class Appoinment implements Initializable {
     }
 
     @FXML
-    void viewAppointmentsBTNAction(ActionEvent event) {
-
+    void viewAppointmentsBTNAction(ActionEvent event) throws IOException {
+        loadNewPage("/view/view-appointment.fxml");
     }
 
     @Override
@@ -357,5 +398,9 @@ public class Appoinment implements Initializable {
         stage.setResizable(false);
         stage.setTitle("Doctor Details - Serenity Mental Health Therapy Center");
         stage.show();
+    }
+    @FXML
+    void PatientsBTNAction(ActionEvent event) throws IOException {
+        loadNewPage("/view/patient-all-programs.fxml");
     }
 }
