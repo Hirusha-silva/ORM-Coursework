@@ -88,6 +88,7 @@ public class AdminLogin implements Initializable {
     private void navigateToMainPage(String fxmlPath,String role, String userName) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Scene scene = new Scene(loader.load());
+
         MainLayout controller = loader.getController();
         controller.setUserRole(role);
         controller.setUserName(userName);

@@ -113,6 +113,7 @@ public class UserLogin implements Initializable {
     private void navigateToMainPage(String fxmlPath,String role,String userName,ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Scene scene = new Scene(loader.load());
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         MainLayout controller = loader.getController();
         controller.setUserRole(role);
         controller.setUserName(userName);
