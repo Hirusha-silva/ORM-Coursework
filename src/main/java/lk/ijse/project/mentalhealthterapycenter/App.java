@@ -13,7 +13,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/main-layout.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         stage.setTitle("The Serenity Mental Health Therapy Center");
