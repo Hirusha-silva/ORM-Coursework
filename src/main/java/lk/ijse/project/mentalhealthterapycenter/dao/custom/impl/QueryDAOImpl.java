@@ -214,8 +214,9 @@ public List<ViewSessionDTO> getAllAppointments() {
             for (Object[] result : resultList) {
                 String patientId = (String) result[0];
                 String patientName = (String) result[1];
-                String contact = (String) result[2];
-                String address = (String) result[3];
+                String address = (String) result[2];
+                String contact = (String) result[3];
+
                 PatientsInEveryProgramDTO dto = new PatientsInEveryProgramDTO(patientId, patientName, contact, address);
                 patientsInEveryProgramDTOList.add(dto);
             }
